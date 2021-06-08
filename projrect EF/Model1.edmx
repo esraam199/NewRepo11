@@ -1,0 +1,481 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="fax" Type="nvarchar" MaxLength="50" />
+          <Property Name="mobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="website" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="item1">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="measure_unit" Type="nvarchar" MaxLength="50" />
+          <Property Name="store_id" Type="int" />
+        </EntityType>
+        <EntityType Name="sell_premission">
+          <Key>
+            <PropertyRef Name="customer_id" />
+            <PropertyRef Name="store_id" />
+            <PropertyRef Name="item_id" />
+            <PropertyRef Name="premission_no" />
+          </Key>
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="store_id" Type="int" Nullable="false" />
+          <Property Name="item_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="premission_no" Type="int" Nullable="false" />
+          <Property Name="premmision_date" Type="datetime" />
+          <Property Name="quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="store">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="admin" Type="nvarchar" MaxLength="50" />
+          <Property Name="address" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="supplier">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="phonne" Type="nvarchar" MaxLength="50" />
+          <Property Name="fax" Type="nvarchar" MaxLength="50" />
+          <Property Name="mobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="website" Type="nvarchar" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="supply_premision">
+          <Key>
+            <PropertyRef Name="supplier_id" />
+            <PropertyRef Name="store_id" />
+            <PropertyRef Name="item_id" />
+            <PropertyRef Name="premmission_no" />
+          </Key>
+          <Property Name="supplier_id" Type="int" Nullable="false" />
+          <Property Name="store_id" Type="int" Nullable="false" />
+          <Property Name="item_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="premmission_no" Type="int" Nullable="false" />
+          <Property Name="production_date" Type="datetime" />
+          <Property Name="premmision_date" Type="datetime" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="expire_date" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_sell_premission_customer">
+          <End Role="customer" Type="Self.customer" Multiplicity="1" />
+          <End Role="sell_premission" Type="Self.sell_premission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sell_premission">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sell_premission_item1">
+          <End Role="item1" Type="Self.item1" Multiplicity="1" />
+          <End Role="sell_premission" Type="Self.sell_premission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item1">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sell_premission">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sell_premission_store">
+          <End Role="store" Type="Self.store" Multiplicity="1" />
+          <End Role="sell_premission" Type="Self.sell_premission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="store">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sell_premission">
+              <PropertyRef Name="store_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supply_premision_item1">
+          <End Role="item1" Type="Self.item1" Multiplicity="1" />
+          <End Role="supply_premision" Type="Self.supply_premision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item1">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="supply_premision">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supply_premision_store">
+          <End Role="store" Type="Self.store" Multiplicity="1" />
+          <End Role="supply_premision" Type="Self.supply_premision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="store">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="supply_premision">
+              <PropertyRef Name="store_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supply_premision_supplier">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="1" />
+          <End Role="supply_premision" Type="Self.supply_premision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="supply_premision">
+              <PropertyRef Name="supplier_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="customer" EntityType="Self.customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="item1" EntityType="Self.item1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sell_premission" EntityType="Self.sell_premission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="store" EntityType="Self.store" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="supplier" EntityType="Self.supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="supply_premision" EntityType="Self.supply_premision" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_sell_premission_customer" Association="Self.FK_sell_premission_customer">
+            <End Role="customer" EntitySet="customer" />
+            <End Role="sell_premission" EntitySet="sell_premission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sell_premission_item1" Association="Self.FK_sell_premission_item1">
+            <End Role="item1" EntitySet="item1" />
+            <End Role="sell_premission" EntitySet="sell_premission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sell_premission_store" Association="Self.FK_sell_premission_store">
+            <End Role="store" EntitySet="store" />
+            <End Role="sell_premission" EntitySet="sell_premission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supply_premision_item1" Association="Self.FK_supply_premision_item1">
+            <End Role="item1" EntitySet="item1" />
+            <End Role="supply_premision" EntitySet="supply_premision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supply_premision_store" Association="Self.FK_supply_premision_store">
+            <End Role="store" EntitySet="store" />
+            <End Role="supply_premision" EntitySet="supply_premision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supply_premision_supplier" Association="Self.FK_supply_premision_supplier">
+            <End Role="supplier" EntitySet="supplier" />
+            <End Role="supply_premision" EntitySet="supply_premision" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="website" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="sell_premission" Relationship="Self.FK_sell_premission_customer" FromRole="customer" ToRole="sell_premission" />
+        </EntityType>
+        <EntityType Name="item1">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="measure_unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="store_id" Type="Int32" />
+          <NavigationProperty Name="sell_premission" Relationship="Self.FK_sell_premission_item1" FromRole="item1" ToRole="sell_premission" />
+          <NavigationProperty Name="supply_premision" Relationship="Self.FK_supply_premision_item1" FromRole="item1" ToRole="supply_premision" />
+        </EntityType>
+        <EntityType Name="sell_premission">
+          <Key>
+            <PropertyRef Name="customer_id" />
+            <PropertyRef Name="store_id" />
+            <PropertyRef Name="item_id" />
+            <PropertyRef Name="premission_no" />
+          </Key>
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <Property Name="store_id" Type="Int32" Nullable="false" />
+          <Property Name="item_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="premission_no" Type="Int32" Nullable="false" />
+          <Property Name="premmision_date" Type="DateTime" Precision="3" />
+          <Property Name="quantity" Type="Int32" />
+          <NavigationProperty Name="customer" Relationship="Self.FK_sell_premission_customer" FromRole="sell_premission" ToRole="customer" />
+          <NavigationProperty Name="item1" Relationship="Self.FK_sell_premission_item1" FromRole="sell_premission" ToRole="item1" />
+          <NavigationProperty Name="store" Relationship="Self.FK_sell_premission_store" FromRole="sell_premission" ToRole="store" />
+        </EntityType>
+        <EntityType Name="store">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="admin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="sell_premission" Relationship="Self.FK_sell_premission_store" FromRole="store" ToRole="sell_premission" />
+          <NavigationProperty Name="supply_premision" Relationship="Self.FK_supply_premision_store" FromRole="store" ToRole="supply_premision" />
+        </EntityType>
+        <EntityType Name="supplier">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phonne" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="website" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="supply_premision" Relationship="Self.FK_supply_premision_supplier" FromRole="supplier" ToRole="supply_premision" />
+        </EntityType>
+        <EntityType Name="supply_premision">
+          <Key>
+            <PropertyRef Name="supplier_id" />
+            <PropertyRef Name="store_id" />
+            <PropertyRef Name="item_id" />
+            <PropertyRef Name="premmission_no" />
+          </Key>
+          <Property Name="supplier_id" Type="Int32" Nullable="false" />
+          <Property Name="store_id" Type="Int32" Nullable="false" />
+          <Property Name="item_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="premmission_no" Type="Int32" Nullable="false" />
+          <Property Name="production_date" Type="DateTime" Precision="3" />
+          <Property Name="premmision_date" Type="DateTime" Precision="3" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="expire_date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="item1" Relationship="Self.FK_supply_premision_item1" FromRole="supply_premision" ToRole="item1" />
+          <NavigationProperty Name="store" Relationship="Self.FK_supply_premision_store" FromRole="supply_premision" ToRole="store" />
+          <NavigationProperty Name="supplier" Relationship="Self.FK_supply_premision_supplier" FromRole="supply_premision" ToRole="supplier" />
+        </EntityType>
+        <Association Name="FK_sell_premission_customer">
+          <End Role="customer" Type="Self.customer" Multiplicity="1" />
+          <End Role="sell_premission" Type="Self.sell_premission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sell_premission">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sell_premission_item1">
+          <End Role="item1" Type="Self.item1" Multiplicity="1" />
+          <End Role="sell_premission" Type="Self.sell_premission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item1">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sell_premission">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supply_premision_item1">
+          <End Role="item1" Type="Self.item1" Multiplicity="1" />
+          <End Role="supply_premision" Type="Self.supply_premision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="item1">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="supply_premision">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sell_premission_store">
+          <End Role="store" Type="Self.store" Multiplicity="1" />
+          <End Role="sell_premission" Type="Self.sell_premission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="store">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sell_premission">
+              <PropertyRef Name="store_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supply_premision_store">
+          <End Role="store" Type="Self.store" Multiplicity="1" />
+          <End Role="supply_premision" Type="Self.supply_premision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="store">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="supply_premision">
+              <PropertyRef Name="store_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_supply_premision_supplier">
+          <End Role="supplier" Type="Self.supplier" Multiplicity="1" />
+          <End Role="supply_premision" Type="Self.supply_premision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="supplier">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="supply_premision">
+              <PropertyRef Name="supplier_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="project_1_linqEntities7" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="customers" EntityType="Self.customer" />
+          <EntitySet Name="item1" EntityType="Self.item1" />
+          <EntitySet Name="sell_premission" EntityType="Self.sell_premission" />
+          <EntitySet Name="stores" EntityType="Self.store" />
+          <EntitySet Name="suppliers" EntityType="Self.supplier" />
+          <EntitySet Name="supply_premision" EntityType="Self.supply_premision" />
+          <AssociationSet Name="FK_sell_premission_customer" Association="Self.FK_sell_premission_customer">
+            <End Role="customer" EntitySet="customers" />
+            <End Role="sell_premission" EntitySet="sell_premission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sell_premission_item1" Association="Self.FK_sell_premission_item1">
+            <End Role="item1" EntitySet="item1" />
+            <End Role="sell_premission" EntitySet="sell_premission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supply_premision_item1" Association="Self.FK_supply_premision_item1">
+            <End Role="item1" EntitySet="item1" />
+            <End Role="supply_premision" EntitySet="supply_premision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sell_premission_store" Association="Self.FK_sell_premission_store">
+            <End Role="store" EntitySet="stores" />
+            <End Role="sell_premission" EntitySet="sell_premission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supply_premision_store" Association="Self.FK_supply_premision_store">
+            <End Role="store" EntitySet="stores" />
+            <End Role="supply_premision" EntitySet="supply_premision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_supply_premision_supplier" Association="Self.FK_supply_premision_supplier">
+            <End Role="supplier" EntitySet="suppliers" />
+            <End Role="supply_premision" EntitySet="supply_premision" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="project_1_linqEntities7">
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="Model.customer">
+              <MappingFragment StoreEntitySet="customer">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="fax" ColumnName="fax" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="website" ColumnName="website" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="item1">
+            <EntityTypeMapping TypeName="Model.item1">
+              <MappingFragment StoreEntitySet="item1">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="measure_unit" ColumnName="measure_unit" />
+                <ScalarProperty Name="store_id" ColumnName="store_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sell_premission">
+            <EntityTypeMapping TypeName="Model.sell_premission">
+              <MappingFragment StoreEntitySet="sell_premission">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="store_id" ColumnName="store_id" />
+                <ScalarProperty Name="item_id" ColumnName="item_id" />
+                <ScalarProperty Name="premission_no" ColumnName="premission_no" />
+                <ScalarProperty Name="premmision_date" ColumnName="premmision_date" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stores">
+            <EntityTypeMapping TypeName="Model.store">
+              <MappingFragment StoreEntitySet="store">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="admin" ColumnName="admin" />
+                <ScalarProperty Name="address" ColumnName="address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="suppliers">
+            <EntityTypeMapping TypeName="Model.supplier">
+              <MappingFragment StoreEntitySet="supplier">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phonne" ColumnName="phonne" />
+                <ScalarProperty Name="fax" ColumnName="fax" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="supply_premision">
+            <EntityTypeMapping TypeName="Model.supply_premision">
+              <MappingFragment StoreEntitySet="supply_premision">
+                <ScalarProperty Name="supplier_id" ColumnName="supplier_id" />
+                <ScalarProperty Name="store_id" ColumnName="store_id" />
+                <ScalarProperty Name="item_id" ColumnName="item_id" />
+                <ScalarProperty Name="premmission_no" ColumnName="premmission_no" />
+                <ScalarProperty Name="production_date" ColumnName="production_date" />
+                <ScalarProperty Name="premmision_date" ColumnName="premmision_date" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="expire_date" ColumnName="expire_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
